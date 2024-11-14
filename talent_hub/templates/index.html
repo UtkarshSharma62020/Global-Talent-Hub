@@ -1,0 +1,102 @@
+<!-- job_scraper/templates/job_scraper/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Talent Hub</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            color: white;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #ff6f61, #de1b1b, #1bde56, #5b1bde);
+            background-size: 600% 600%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .highlight {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #003d7a;
+            border-color: #003d7a;
+        }
+
+        .btn-primary:hover {
+            background-color: #00274d;
+            border-color: #00274d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Global Talent Hub</h1>
+        <div class="highlight">
+            <h2>Important: New Job Opportunities!</h2>
+            <p>Explore the latest job listings that require proficiency in English, French, Hindi, or Dutch.</p>
+        </div>
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="url" class="form-control" placeholder="Enter job listing URL" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        {% if message %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+        {% elif jobs %}
+            <div class="row">
+                {% for job in jobs %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ job.title }}</h5>
+                                <p class="card-text">{{ job.description|safe }}</p>
+                                <a href="{{ job.link }}" class="btn btn-primary" target="_blank">View Job Listing</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 Global Talent Hub | All Rights Reserved</p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
